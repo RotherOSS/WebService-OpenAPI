@@ -1,0 +1,201 @@
+--- 
+components:
+  schemas:
+    LoginData:
+      type: object
+      properties:
+        Password:
+          description: The Password of the User performing the operation
+          type: string
+        UserLogin:
+          description: The UserLogin of the User performing the operation
+          type: string 
+    SessionIdentifier:
+      type: object
+      properties:
+        SessionID:
+          description: A valid SessionID of the User performing the operation
+          type: string
+      required:
+        - SessionID
+    Credentials:
+      oneOf:
+        - $ref: '#/components/schemas/LoginData'
+        - $ref: '#/components/schemas/SessionIdentifier'
+    SessionCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/LoginData'
+    SessionCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - $ref: '#/components/schemas/SessionIdentifier'
+    SessionGetRequest:
+      allOf:
+        - $ref: '#/components/schemas/SessionIdentifier'
+    SessionGetResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - type: object
+          properties:
+            SessionData:
+              description: Key/Value pairs of SessionInfo 
+              type: array
+              items:
+                type: object
+                properties:
+                  Key:
+                    type: string
+                  Value:
+                    type: string  
+
+Session::SessionCreate:
+  QueryParams:
+    GET:
+      - description: The UserLogin of the User performing the operation
+        in: query
+        name: UserLogin
+        required: true
+        schema:
+          example: root@localhost
+          type: string
+      - description: The Password of the User performing the operation
+        in: query
+        name: Password
+        required: true
+        schema:
+          example: root
+          type: string 
+  RequestBody:
+    content:
+      application/json:
+        example:
+          Password: root
+          UserLogin: root@localhost
+        schema:
+          $ref: '#/components/schemas/SessionCreateRequest'
+    required: true
+  Responses:
+    200:
+      content:
+        application/json:
+          examples:
+            basic:
+              value:
+                SessionID: "1234567890"
+          schema:
+            $ref: '#/components/schemas/SessionCreateResponse'
+      description: 200 response
+
+Session::SessionGet:
+  QueryParams:
+    GET:
+    - $ref: '#/components/parameters/SessionID'
+  RequestBody:
+    content:
+      application/json:
+        example:
+          SessionID: XXX
+        schema:
+          $ref: '#/components/schemas/SessionGetRequest'
+    required: true    
+  Responses:  
+    200:
+      description: 200 response    
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SessionGetResponse'
+          examples:
+            basic:
+              value:
+                SessionData:
+                  -                   
+                    "Key": "AdminCommunicationLogPageShown"
+                    "Value": "25"
+                  -
+                    "Key": "AdminDynamicFieldsOverviewPageShown"
+                    "Value": "250"
+                  -
+                    "Key": "ChangeTime"
+                    "Value": "2025-09-11 18:41:33"
+                  -
+                    "Key": "CreateTime"
+                    "Value": "2025-09-11 18:41:33"
+                  -
+                    "Key": "SessionSource"
+                    "Value": "GenericInterface"
+                  -
+                    "Value": ""
+                    "Key": "UserAuthBackend"
+                  -
+                    "Key": "UserCreateNextMask"
+                    "Value": ""
+                  -
+                    "Key": "UserEmail"
+                    "Value": "root@localhost"
+                  -
+                    "Value": "-"
+                    "Key": "UserFirstname"
+                  -
+                    "Key": "UserFullname"
+                    "Value": "- -"
+                  -
+                    "Key": "UserID"
+                    "Value": "1"
+                  -
+                    "Key": "UserLastLogin"
+                    "Value": "1757887997"
+                  -
+                    "Key": "UserLastLoginTimestamp"
+                    "Value": "2025-09-14 22:13:17"
+                  -
+                    "Key": "UserLastRequest"
+                    "Value": "1757887998"
+                  -
+                    "Key": "UserLastname"
+                    "Value": "-"
+                  -
+                    "Key": "UserLogin"
+                    "Value": "root@localhost"
+                  -
+                    "Key": "UserLoginFailed"
+                    "Value": "0"
+                  -
+                    "Key": "UserMarkTicketSeenRedirectURL"
+                    "Value": ""
+                  -
+                    "Value": ""
+                    "Key": "UserMarkTicketUnseenRedirectURL"
+                  -
+                    "Key": "UserRefreshTime"
+                    "Value": "0"
+                  -
+                    "Value": "172.19.0.1"
+                    "Key": "UserRemoteAddr"
+                  -
+                    "Key": "UserRemoteUserAgent"
+                    "Value": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0"
+                  -
+                    "Key": "UserSessionStart"
+                    "Value": "1757887998"
+                  -
+                    "Value": "Small"
+                    "Key": "UserTicketOverviewAgentCustomerSearch"
+                  -
+                    "Value": "20"
+                    "Key": "UserTicketOverviewMediumPageShown"
+                  -
+                    "Key": "UserTicketOverviewPreviewPageShown"
+                    "Value": "15"
+                  -
+                    "Value": "25"
+                    "Key": "UserTicketOverviewSmallPageShown"
+                  -
+                    "Value": 
+                    "Key": "UserTitle"
+                  -
+                    "Value": "User"
+                    "Key": "UserType"
+                  -
+                    "Value": "1"
+                    "Key": "ValidID"

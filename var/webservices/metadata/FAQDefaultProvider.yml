@@ -1,0 +1,319 @@
+---
+components:
+   schemas:
+
+     FAQ:
+       type: object
+       properties:
+         ID:
+           type: integer
+         ItemID:
+           type: integer
+         FAQID:
+           type: integer
+         Number:
+           type: string
+         CategoryID:
+           type: string
+         CategoryName:
+           type: string
+         CategoryShortName:
+           type: string
+         LanguageID:
+           type: integer
+         Language:
+           type: string
+         Title:
+           type: string
+         Field1:
+           type: string
+           description: Sympthom
+         Field2:
+           type: string
+           description: Problem
+         Field3:
+           type: string
+           description: Solution
+         Field4:
+           type: string
+         Field5:
+           type: string
+         Field6:
+           type: string
+           description: Comments
+                     => 'The Symptoms',
+         Approved:
+           type: integer
+         Keywords:
+           type: string
+         Votes:
+           type: integer
+         VoteResult:
+           type: number
+         StateID:
+           type: integer
+         State:
+           type: string
+           description: "internal (agent)' or 'external (customer)' or"
+         StateTypeID:
+           type: integer
+         StateTypeName:
+           type: string
+           description: "'internal', or 'external', or 'public'"
+         CreatedBy:
+           type: integer
+         Changed:
+           type: string
+         ChangedBy:
+           type: integer
+         Created:
+           type: string
+         Name:
+           type: string
+         ContentType:
+           type: string
+           description: e.g. 'text/html'
+         Attachment:
+           $ref: '#/components/schemas/Attachments'
+     FAQs:
+       type: array
+       items:
+         $ref: '#/components/schemas/FAQ'
+
+     LanguageListResponse:
+       allOf:
+         - $ref: '#/components/schemas/ApiError'
+         - type: object
+           properties:
+             Language:
+               description: Supported FAQ languages
+               type: array
+               items:
+                 type: object
+                 properties:
+                   ID:
+                     type: integer
+                   Name:
+                     type: string
+
+     CategoryListResponse:
+       allOf:
+         - $ref: '#/components/schemas/ApiError'
+         - type: object
+           properties:
+             Category:
+               description: Available FAQ Categories
+               type: array
+               items:
+                 type: object
+                 properties:
+                   ID:
+                     type: integer
+                   Name:
+                     type: string
+
+     PublicFAQGetRequest:
+       allOf:
+         - $ref: '#/components/schemas/Credentials'
+         - type: object
+           properties:
+             ItemID:
+               type: string
+               description: single FAQ ID or comma separated list of IDs
+             GetAttachmentContents:
+               type: integer
+               description: whether to return Attachment Contents (0|1)
+
+     PublicFAQGetResponse:
+       allOf:
+         - $ref: '#/components/schemas/ApiError'
+         - type: object
+           properties:
+             ItemID:
+               $ref: '#/components/schemas/FAQs'
+
+     PublicFAQSearchRequest:
+       allOf:
+         - $ref: '#/components/schemas/Credentials'
+         - type: object
+           properties:
+             Number:
+               type: string
+               description: "*134*"
+             Title:
+               type: string
+               description: "*some title*"
+             What:
+               type: string
+               description: "*some text*"
+             Keyword:
+               type: string
+               description: "*webserver*"
+             LanguageIDs:
+               type: array
+               items: 
+                type: integer
+             CategoryIDs:
+               type: array
+               items: 
+                type: integer
+             OrderBy:
+               type: array
+               items: 
+                type: string
+               description: " [ 'FAQID', 'Title' ] "
+             OrderByDirection:
+               type: string
+               description: Up or Down
+
+     PublicFAQSearchResponse:
+       allOf:
+         - $ref: '#/components/schemas/ApiError'
+         - type: object
+           properties:
+             ID:
+               type: array
+               items: 
+                type: integer
+
+FAQ::LanguageList:
+   QueryParams: 
+    GET:
+    - $ref: '#/components/parameters/UserLogin'
+    - $ref: '#/components/parameters/Password'
+    - $ref: '#/components/parameters/SessionID'   
+   RequestBody: {}
+   Responses:
+     200:
+       content:
+         application/json:
+           examples:
+             basic:
+               value:
+                 Language:
+                   - ID: 1
+                     Name: en
+                   - ID: 2
+                     Name: de
+           schema:
+             $ref: '#/components/schemas/LanguageListResponse'
+       description: 200 response
+
+FAQ::PublicCategoryList:
+   QueryParams: 
+    GET:
+    - $ref: '#/components/parameters/UserLogin'
+    - $ref: '#/components/parameters/Password'
+    - $ref: '#/components/parameters/SessionID'
+   RequestBody: {}
+   Responses:
+     200:
+       content:
+         application/json:
+           examples:
+             basic:
+               value:
+                 Category:
+                   - 'main'
+                   - 'other'
+           schema:
+             $ref: '#/components/schemas/LanguageListResponse'
+       description: 200 response
+
+FAQ::PublicFAQGet:
+   QueryParams:
+     GET:
+      - $ref: '#/components/parameters/UserLogin'
+      - $ref: '#/components/parameters/Password'
+      - $ref: '#/components/parameters/SessionID'
+      - description: "FAQ ID or comma separated list of FAQ IDs"
+        in: query
+        name: ItemID
+        schema:
+           type: string
+      - description: "Retrieve aatachment contents 0|1"
+        in: query
+        name: GetAttachmentContents
+        schema:
+           type: integer
+
+   RequestBody:
+     content:
+       application/json:
+         example:
+           ItemID: "1,2"
+           GetAttachmentContents: 0
+         schema:
+           $ref : '#/components/schemas/PublicFAQGetRequest'
+   Responses:
+     200:
+       content:
+         application/json:
+           examples:
+             basic:
+               value:
+                 ItemID:
+                   - ID: 32
+                     ItemID: 32
+                     FAQID: 32
+                     Number: 100032
+                     CategoryID: '2'
+                     CategoryName: 'CategoryA::CategoryB'
+                     CategoryShortName: 'CategoryB'
+                     LanguageID: 1
+                     Language: 'en'
+                     Title: 'Article Title'
+                     Field1: 'The Symptoms'
+                     Field2: 'The Problem'
+                     Field3: 'The Solution'
+                     Field4:
+                     Field5:
+                     Field6: 'Comments'
+                     Approved: 1
+                     Keywords: 'KeyWord1 KeyWord2'
+                     Votes: 10
+                     VoteResult: 5.00
+                     StateID: 1
+                     State: 'internal (agent)'
+                     StateTypeID: 1
+                     StateTypeName: 'internal'
+                     CreatedBy: 1
+                     Changed: '2011-01-05 21:53:50'
+                     ChangedBy: 1
+                     Created: '2011-01-05 21:53:50'
+                     Name: '1294286030-31.1697297104732'
+                     ContentType: 'text/html'
+           schema:
+             $ref: '#/components/schemas/PublicFAQGetResponse'
+       description: 200 response
+
+FAQ::PublicFAQSearch:
+   QueryParams: {}
+   RequestBody:
+    content:
+       application/json:
+         example:
+             Title: '*some title*'
+             What: '*some text*'
+             Keyword: '*webserver*'
+             LanguageIDs: [ 1, 2, 3 ]
+             CategoryIDs: [ 1, 3, 5 ]
+             OrderBy: [ 'FAQID', 'Title' ]
+             OrderByDirection: 'Down'
+         schema:
+           $ref : '#/components/schemas/PublicFAQSearchRequest'
+   Responses:
+     200:
+       content:
+         application/json:
+           examples:
+             basic:
+               value:
+                 ID:
+                   - 1
+                   - 2
+                   - 5
+           schema:
+             $ref : '#/components/schemas/PublicFAQSearchResponse'
+       description: 200 response
+

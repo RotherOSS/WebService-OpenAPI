@@ -1,0 +1,507 @@
+--- 
+components:
+  schemas:
+    ConfigItem:
+      type: object
+      properties:
+        Class:
+          type: string
+        ConfigItemID:
+          type: integer
+        DeploumentStateType:
+          type: string
+        DeploymentState:
+          type: string
+        Description:
+          type: string
+        DynamicField:
+          $ref : '#/components/schemas/DynamicFields'
+        IncidentState:
+          type: string
+        IncidentStateType:
+          type: string
+        Name:
+          type: string
+        Number:
+          type: integer
+        Attachment:
+            $ref : '#/components/schemas/Attachments'
+
+    ConfigItemFull:
+      allOf:
+        - $ref : '#/components/schemas/ConfigItem'
+        - type: object
+          properties:
+            CurDeploumentStateType:
+              type: string
+            CurDeploymentState:
+              type: string
+            CurIncidentState:
+              type: string
+            CurIncidentStateType:
+              type: string
+            ChangeBy:
+              type: integer
+            ChangeTime:
+              type: string
+            CreateBy:
+              type: integer
+            CreateTime:
+              type: string
+    ConfigItemQuery:
+      type: object
+      properties:
+        ChangeBy:
+          items:
+            type: integer
+          type: array
+        ClassIDs:
+          items:
+            type: integer
+          type: array
+        Classes:
+          items:
+            type: string
+          type: array
+        ConfigItemCreateTimeNewerDate:
+          type: string
+        ConfigItemCreateTimeNewerMinutes:
+          type: integer
+        ConfigItemCreateTimeOlderDate:
+          type: string
+        ConfigItemCreateTimeOlderMinutes:
+          type: integer
+        ConfigItemID:
+          items:
+            type: integer
+          type: array
+        ConfigItemLastChangeTimeNewerDate:
+          type: string
+        ConfigItemLastChangeTimeNewerMinutes:
+          type: integer
+        ConfigItemLastChangeTimeOlderDate:
+          type: string
+        ConfigItemLastChangeTimeOlderMinutes:
+          type: integer
+        CreateBy:
+          items:
+            type: integer
+          type: array
+        CurDeplStateIDs:
+          items:
+            type: integer
+          type: array
+        CurDeplStates:
+          items:
+            type: string
+          type: array
+        CurInciStateIDs:
+          items:
+            type: integer
+          type: array
+        CurInciStates:
+          items:
+            type: string
+          type: array
+        DeplStateIDs:
+          items:
+            type: integer
+          type: array
+        DeplStates:
+          items:
+            type: string
+          type: array
+        # DynamicField_FieldNameX:
+        #   properties:
+        #     Empty:
+        #       enum:
+        #       - 0
+        #       - 1
+        #       type: integer
+        #     Equals:
+        #       type: string
+        #     GreaterThan:
+        #       type: string
+        #     GreaterThanEquals:
+        #       type: string
+        #     Like:
+        #       type: string
+        #     SmallerThan:
+        #       type: string
+        #     SmallerThanEquals:
+        #       type: string
+        #   type: object
+        InciStateIDs:
+          items:
+            type: integer
+          type: array
+        InciStates:
+          items:
+            type: string
+          type: array
+        Limit:
+          type: integer
+        Name:
+          items:
+            type: string
+          type: array
+        Number:
+          items:
+            type: string
+          type: array
+        OrderBy:
+          items:
+            enum:
+            - Up
+            - Down
+            type: string
+          type: array
+        SortBy:
+          items:
+            enum:
+            - ConfigItem
+            - Number
+            - Name
+            - DeplState
+            - InciState
+            - CurDeplState
+            - CurInciState
+            - Age
+            - Created
+            - Changed
+            type: string
+          type: array
+      type: object
+
+    ConfigItemGetRequest:
+      allOf:
+        - $ref: '#/components/schemas/Credentials'
+        - type: object
+          properties:
+            ConfigItemID:
+              type: string
+            Attachments:
+              enum:
+              - 0
+              - 1
+              type: integer
+    ConfigItemGetResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - type: object
+          properties:
+            ConfigItem:
+              type: array
+              items:
+                $ref: '#/components/schemas/ConfigItemFull'
+
+    ConfigItemSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/Credentials'
+        - $ref: '#/components/schemas/ConfigItemQuery'
+
+    ConfigItemSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - type: object
+          properties:
+            ConfigItemID:
+              type: array
+              items:
+                type: integer
+
+    ConfigItemDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/Credentials'
+        - type: object
+          properties:
+            ConfigItemID:
+              type: integer
+
+    ConfigItemDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - type: object
+          properties:
+            ConfigItemID:
+              type: array
+              items:
+                type: integer
+
+    ConfigItemUpsertRequest:
+      allOf:
+        - $ref: '#/components/schemas/Credentials'
+        - type: object
+          properties:
+            ConfigItem:
+              type: array
+              items:
+                $ref: '#/components/schemas/ConfigItem'
+  
+    ConfigItemUpsertResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - type: object
+          properties:
+            ConfigItem:
+              type: array
+              items:
+                type: object
+                properties:
+                  ConfigItemID:
+                    type: integer
+                  Number:
+                    type: string
+
+ConfigItem::ConfigItemGet:
+  QueryParams:
+    GET: 
+    - $ref: '#/components/parameters/UserLogin'
+    - $ref: '#/components/parameters/Password'
+    - $ref: '#/components/parameters/SessionID'   
+    - description: ID of Configitem to fetch. Can also be a comma separated list of
+        IDs.
+      in: query
+      name: ConfigItemID
+      required: true
+      schema:
+        type: string
+    - description: Include attachments
+      in: query
+      name: Attachments
+      required: false
+      schema:
+        enum:
+        - 0
+        - 1
+        type: integer
+  RequestBody: 
+    content:
+      application/json:
+        example:
+          ConfigItemID: 123t
+          Attachments: 0
+        schema:
+          $ref: '#/components/schemas/ConfigItemGetRequest'
+    required: true
+
+  Responses:
+    200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ConfigItemGetResponse'
+          examples:
+            basic:
+              value:
+                ConfigItem:
+                - ChangeBy: 1
+                  ChangeTime: 2025-08-24 12:32:21
+                  Class: Country
+                  ConfigItemID: 1
+                  CreateBy: 1
+                  CreateTime: 2025-08-24 12:32:21
+                  CurDeplState: Production
+                  CurDeplStateType: productive
+                  CurInciState: Operational
+                  CurInciStateType: operational
+                  DeplState: Production
+                  DeplStateType: productive
+                  Description: <!-- HTML Description -->
+                  InciState: Operational
+                  InciStateType: operational
+                  LastVersionID: 1
+                  Name: Bavaria
+                  Number: "1049000001"
+                  VersionID: 1
+                  VersionString: 1
+      description: 200 response
+
+ConfigItem::ConfigItemSearch:
+  QueryParams:
+    GET:
+    - $ref: '#/components/parameters/UserLogin'
+    - $ref: '#/components/parameters/Password'
+    - $ref: '#/components/parameters/SessionID'   
+    - description: Limit number of results.
+      in: query
+      name: Limit
+      required: false
+      schema:
+        type: integer
+    - description: Search by ID.
+      in: query
+      name: ConfigItemID
+      required: false
+      schema:
+        type: integer
+    - description: Search by ConfigItem Number.
+      in: query
+      name: Number
+      required: false
+      schema:
+        type: string
+    - description: Search by ConfigItem Name.
+      in: query
+      name: Name
+      required: false
+      schema:
+        type: string
+    - description: Search for ConfigItems created before minutes.
+      in: query
+      name: ConfigItemCreateTimeOlderMinutes
+      required: false
+      schema:
+        type: integer
+    - description: Search for ConfigItems created in the last X minutes.
+      in: query
+      name: ConfigItemCreateTimeNewerMinutes
+      required: false
+      schema:
+        type: integer
+    - description: Search for ConfigItems created before date.
+      in: query
+      name: ConfigItemCreateTimeOlderDate
+      required: false
+      schema:
+        type: string
+    - description: Search for ConfigItems created since date.
+      in: query
+      name: ConfigItemCreateTimeNewerDate
+      required: false
+      schema:
+        type: string
+    - description: Search for ConfigItems changed before minutes.
+      in: query
+      name: ConfigItemLastChangeTimeOlderMinutes
+      required: false
+      schema:
+        type: integer
+    - description: Search for ConfigItems changed in the last X minutes.
+      in: query
+      name: ConfigItemLastChangeTimeNewerMinutes
+      required: false
+      schema:
+        type: integer
+    - description: Search for ConfigItems changed before date.
+      in: query
+      name: ConfigItemLastChangeTimeOlderDate
+      required: false
+      schema:
+        type: string
+    - description: Search for ConfigItems changed since date.
+      in: query
+      name: ConfigItemLastChangeTimeNewerDate
+      required: false
+      schema:
+        type: string
+    - description: Order of result.
+      in: query
+      name: OrderBy
+      required: false
+      schema:
+        enum:
+        - Up
+        - Down
+        type: string
+    - description: Sort results by field.
+      in: query
+      name: SortBy
+      required: false
+      schema:
+        enum:
+        - ConfigItem
+        - Number
+        - Name
+        - DeplState
+        - InciState
+        - CurDeplState
+        - CurInciState
+        - Age
+        - Created
+        - Changed
+        type: string
+  RequestBody:
+    content:
+      application/json:
+        example:
+          Classes:
+          - Country
+          Name: Bavaria
+        schema:
+          $ref: '#/components/schemas/ConfigItemSearchRequest'
+    required: false
+  Responses:       
+    200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ConfigItemSearchResponse'
+          examples:
+            basic:
+              value:
+                ConfigItemID:
+                - 1
+                - 4
+                - 5
+      description: 200 response
+
+ConfigItem::ConfigItemDelete:
+  QueryParams: 
+    DELETE:
+    - $ref: '#/components/parameters/UserLogin'
+    - $ref: '#/components/parameters/Password'
+    - $ref: '#/components/parameters/SessionID'   
+    GET:
+    - $ref: '#/components/parameters/UserLogin'
+    - $ref: '#/components/parameters/Password'
+    - $ref: '#/components/parameters/SessionID'   
+
+  RequestBody:
+    content:
+      application/json:
+        example:
+          ConfigItemID: 1
+        schema:
+          $ref: '#/components/schemas/ConfigItemDeleteRequest'
+    required: true
+  Responses:
+    200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ConfigItemDeleteResponse'
+          examples:
+            basic:
+              value:
+                ConfigItemID:
+                - 1
+      description: 200 response
+
+ConfigItem::ConfigItemUpsert:
+  QueryParams: {}
+  RequestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ConfigItemUpsertRequest'
+        example:
+          ConfigItem:
+          - Class: Country
+            DeploymentState: Production
+            Description: html description
+            IncidentState: Operational
+            Name: Hessen
+            Number: 4711
+    required: false
+  Responses:
+    200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ConfigItemUpsertResponse'
+          examples:
+            basic:
+              value:
+                ConfigItemID: 1
+      description: 200 response

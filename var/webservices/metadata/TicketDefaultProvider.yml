@@ -1,0 +1,1193 @@
+--- 
+components:
+  parameters:
+    TicketID:
+      description: TicketID to fetch
+      in: query
+      name: TicketID
+      required: true
+      schema:
+        type: string
+    DynamicFields:
+      description: Include Dynamic Fields
+      in: query
+      name: DynamicFields
+      required: false
+      schema:
+        enum:
+        - 0
+        - 1
+        type: integer
+
+  schemas:
+    Articles:
+      type: array
+      items:
+        $ref: '#/components/schemas/Article'
+    Article:
+      type: object
+      properties:
+        AutoResponseType:
+          description: Name of AutoResponse type from Admin UI Auto Responses
+          type: string                  
+        DynamicField:
+          $ref: '#/components/schemas/DynamicFields'
+        ArticleID:
+          description: ID of the article
+          type: integer
+        CommunicationChannel:
+          description: "One of 'Email', 'Phone', 'Internal'"
+          enum:
+          - Email
+          - Phone
+          - Internal
+          type: string
+        CommunicationChannelID:
+          type: integer          
+        From:
+          description: Email
+          type: string
+        To:
+          description: Email
+          type: string
+        Cc:
+          description: Email
+          type: string
+        Subject:
+          description: The article subject
+          type: string
+        Body:
+          description: The article body
+          type: string
+        ReplyTo:
+          description: Email
+          type: string
+        MessageID:
+          description: Message ID
+          type: string
+        InReplyTo:
+          description: Email
+          type: string
+        References:
+          description: Message ID
+          type: string
+        SenderType:
+          description: "One of 'customer', 'agent', 'system'"
+          enum:
+          - customer
+          - agent
+          - system
+          type: string
+        SenderTypeID:
+          type: integer
+        HistoryComment:
+          type: string
+        HistoryType:
+          type: string
+        IsVisibleForCustomer:
+          enum:
+          - 0
+          - 1
+          type: integer
+        NoAgentNotify:
+          description: Whether to notify Agents
+          enum:
+          - 0
+          - 1
+          type: integer
+        SenderType:
+          description: "One of 'customer', 'agent', 'system'"
+          enum:
+          - customer
+          - agent
+          - system
+          type: string
+        SenderTypeID:
+          type: integer          
+        ContentType:
+          description: A content type like 'text/plain' or 'text/html'
+          type: string
+        Charset:
+          description: e.g. 'UTF-8'
+        MimeType:
+          type: string
+        IncomingTime:
+          type: string
+        TimeUnit:      
+          type: string
+    TicketExtended:
+      type: object
+      properties:
+        FirstResponse:
+          description: timestamp of first response, first contact with customer
+          type: integer
+        FirstResponseInMin:
+          description: minutes till first response
+          type: integer
+        FirstResponseDiffInMin:
+          description: minutes till or over first response
+          type: integer
+        SolutionInMin:
+          description: minutes till solution time
+          type: integer
+        SolutionDiffInMin:
+          description: minutes till or over solution time
+          type: integer        
+        FirstLock:
+          description:  timestamp of first lock
+          type: integer
+    TicketStats:
+      type: object
+      properties:
+        Age:
+          description: Age of this ticket
+          type: integer
+        ArchiveFlag:
+          description: Flag to indiciate if this ticket is archived
+          type: string
+        Changed:
+          description: Time this ticket was changed last
+          type: string
+        ChangedBy:
+          description: User that last changed this ticket
+          type: integer
+        Created:
+          description: Time this ticket was created
+          type: string
+        CreatedBy:
+          description: User that created this ticket
+          type: integer
+        EscalationResponseTime:
+          description: Unix time stamp of response time escalation
+          type: integer
+        EscalationUpdateTime:
+          description: Unix time stamp of update time escalation
+          type: integer
+        EscalationSolutionTime:
+          description: Unix time stamp of solution time escalation
+          type: integer
+        EscalationDestinationIn:
+          description: escalation in e. g. 1h 4m
+          type: string
+        EscalationDestinationTime: 
+          description: date of escalation in unix time, e. g. 72193292)
+          type: integer
+        EscalationDestinationDate:
+          description: date of escalation, e. g. "2009-02-14 18:00:00"
+          type: string
+        EscalationTimeWorkingTime:
+          description: seconds of working/service time till escalation, e. g. "1800"
+          type: integer
+        FirstResponseTimeEscalation:
+          description: if true, ticket is escalated
+          type: integer
+        FirstResponseTimeNotification:
+          description: if true, notify - x% of escalation has reached
+          type: integer
+        FirstResponseTimeDestinationTime:
+          description: date of escalation in unix time, e. g. 72193292
+          type: integer
+        FirstResponseTimeDestinationDate:
+          description: date of escalation, e. g. "2009-02-14 18:00:00"
+          type: string
+        FirstResponseTimeWorkingTime:
+          description: seconds of working/service time till escalation, e. g. "1800"
+          type: integer
+        FirstResponseTime:
+          description: seconds total till escalation, e. g. "3600"
+          type: integer
+        UpdateTimeEscalation:
+          description: if true, ticket is escalated
+          type: integer
+        UpdateTimeNotification:
+          description: if true, notify - x% of escalation has reached
+          type: integer
+        UpdateTimeDestinationTime:
+          description: date of escalation in unix time, e. g. 72193292
+          type: integer
+        UpdateTimeDestinationDate:
+          description: date of escalation, e. g. "2009-02-14 18:00:00"
+          type: string
+        UpdateTimeWorkingTime:
+          description: seconds of working/service time till escalation, e. g. "1800"
+          type: integer
+        UpdateTime:
+          description: seconds total till escalation, e. g. "3600"
+          type: integer
+        SolutionTimeEscalation:
+          description: if true, ticket is escalated
+          type: integer          
+        SolutionTimeNotification:
+          description: if true, notify - x% of escalation has reached
+          type: integer
+        SolutionTimeDestinationTime:
+          description: date of escalation in unix time, e. g. 72193292
+          type: integer
+        SolutionTimeDestinationDate:
+          description: date of escalation, e. g. "2009-02-14 18:00:00"
+          type: string
+        SolutionTimeWorkingTime:
+          description: seconds of working/service time till escalation, e. g. "1800"
+          type: integer
+        SolutionTime:
+          description: seconds total till escalation, e. g. "3600"
+          type: integer
+    Ticket:
+      type: object
+      properties:      
+        DynamicField:
+            $ref: '#/components/schemas/DynamicFields'
+        CustomerID:
+          description: The CustomerUser for this ticket
+          type: string
+        CustomerUser:
+          description: The CustomerUser for this ticket
+          type: string
+        Lock:
+          description: A Lock type
+          type: string
+        LockID:
+          type: integer
+        Owner:
+          description: Set the Owner agent for this ticket
+          type: string
+        OwnerID:
+          type: integer
+        PendingTime:
+          description: Sets the pending time for this ticket
+          properties:
+            Day:
+              type: integer
+            Hour:
+              type: integer
+            Minute:
+              type: integer
+            Month:
+              type: integer
+            Year:
+              type: integer
+          type: object
+        Priority:
+          description: Set ticket priority
+          type: string
+        PriorityID:
+          type: integer
+        Queue:
+          description: Set the Queue to put the ticket into
+          type: string
+        QueueID:
+          type: integer
+        Responsible:
+          description: Set the responsible Agent for this ticket
+          type: string
+        ResponsibleID:
+          type: integer
+        SLA:
+          description: Set the Service Level Agreement 
+          type: string
+        SLAID:
+          type: integer
+        Service:
+          description: Set the ticket service
+          type: string
+        ServiceID:
+          type: integer
+        State:
+          description: Set the toclet state
+          type: string
+        StateID:
+          type: integer
+        TicketID:
+          type: string
+        TicketNumber:
+          type: string
+        TimeUnit:
+          description: time spent on this ticket
+          type: integer
+        Title:
+          description: The title of the ricket
+          type: string
+        Type:
+          description: Ticket type
+          type: string
+        TypeID:
+          type: integer
+    TicketFull:
+      allOf:
+        - $ref: '#/components/schemas/Ticket'
+        - $ref: '#/components/schemas/TicketStats'
+        - $ref: '#/components/schemas/TicketExtended'
+        - type: object
+          properties:
+            Article: 
+              $ref: '#/components/schemas/Articles'
+
+    TicketCreated:
+      allOf:
+        - $ref: '#/components/schemas/Ticket'
+        - type: object
+          properties:
+            Article:
+              $ref: '#/components/schemas/Article'
+
+    TicketQuery:
+      type: object
+      properties:
+        ArticleCreateTimeNewerDate:
+          description: Include articles created after 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        ArticleCreateTimeNewerMinutes:
+          type: integer
+        ArticleCreateTimeOlderDate:
+          description: Include articles created before 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        ArticleCreateTimeOlderMinutes:
+          type: integer
+        ContentSearch:
+          description: "Article content search (AND or OR for From, To, Cc, Subject and Body)"
+          enum:
+          - AND
+          - OR
+          type: string
+        CreatedPriorities:
+          description: "'1 very low', '2 low', '3 normal'"
+          items:
+            type: string
+          type: array
+        CreatedPriorityIDs:
+          items:
+            type: integer
+          type: array
+        CreatedQueueIDs:
+          items:
+            type: integer
+          type: array
+        CreatedQueues:
+          description: Queue ticket was created in
+          items:
+            type: string
+          type: array
+        CreatedStateIDs:
+          items:
+            type: integer
+          type: array
+        CreatedStates:
+          description: "e.g. new or open"
+          items:
+            type: string
+          type: array
+        CreatedTypeIDs:
+          items:
+            type: integer
+          type: array
+        CreatedTypes: 
+          description: "'normal', 'change', 'incident'"
+          items:
+            type: string
+          type: array
+        CreatedUserIDs:
+          items:
+            type: integer
+          type: array
+        CustomerID:
+          description: ID of the Customer
+          items:
+            type: string
+          type: array
+        CustomerUserLogin:
+          description: Customer UserLogin
+          items:
+            type: string
+          type: array
+        # DynamicField_FieldNameX:
+        #   description: "A Dynamic Field. Replace 'FieldNameX' with the name of the Dynamic Field" 
+        #   properties:
+        #     Empty:
+        #       enum:
+        #       - 0
+        #       - 1
+        #       type: integer
+        #     Equals:
+        #       type: string
+        #     GreaterThan:
+        #       type: string
+        #     GreaterThanEquals:
+        #       type: string
+        #     Like:
+        #       type: string
+        #     SmallerThan:
+        #       type: string
+        #     SmallerThanEquals:
+        #       type: string
+        #   type: object
+        FullTextIndex:
+          type: integer
+        LockIDs:
+          items:
+            type: integer
+          type: array
+        Locks:
+          items:
+            type: string
+          type: array
+        MIMEBase_Body:
+          description: Search article bodies
+          type: string
+        MIMEBase_CC:
+          description: Search article CCs
+          type: string
+        MIMEBase_From:
+          description: Search article From fields
+          type: string
+        MIMEBase_Subject:
+          description: Search article subjects
+          type: string
+        MIMEBase_To:
+          description: Search article TOs
+          type: string
+        OrderBy:
+          enum:
+          - Up
+          - Down
+          type: string
+        OwnerIDs:
+          items:
+            type: integer
+          type: array
+        Priorities:
+          items:
+            type: string
+          type: array
+        PriorityIDs:
+          items:
+            type: integer
+          type: array
+        QueueIDs:
+          items:
+            type: integer
+          type: array
+        Queues:
+          description: Array of queue names to search in 
+          items:
+            type: string
+          type: array
+        ResponsibleIDs:
+          items:
+            type: integer
+          type: array
+        SLAIDs:
+          items:
+            type: integer
+          type: array
+        SLAs:
+          items:
+            type: string
+          type: array
+        ServiceIDs:
+          items:
+            type: integer
+          type: array
+        Services:
+          items:
+            type: string
+          type: array
+        SortBy:
+          type: string
+        StateIDs:
+          items:
+            type: integer
+          type: array
+        StateType:
+          items:
+            type: string
+          type: array
+        StateTypeIDs:
+          items:
+            type: integer
+          type: array
+        States:
+          items:
+            type: string
+          type: array
+        TicketChangeTimeNewerDate:
+          description: Include tickets changed after 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketChangeTimeNewerMinutes:
+          type: integer
+        TicketChangeTimeOlderDate:
+          description: Include tickets changed before 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketChangeTimeOlderMinutes:
+          type: integer
+        TicketCloseTimeNewerDate:
+          description: Include tickets closed after 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketCloseTimeNewerMinutes:
+          type: integer
+        TicketCloseTimeOlderDate:
+          description: Include tickets closed before 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketCloseTimeOlderMinutes:
+          type: integer
+        TicketCreateTimeNewerDate:
+          description: Include tickets created after 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketCreateTimeNewerMinutes:
+          type: integer
+        TicketCreateTimeOlderDate:
+          description: Include tickets created before 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketCreateTimeOlderMinutes:
+          type: integer
+        TicketEscalationTimeNewerDate:
+          description: Include tickets escalated after 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketEscalationTimeNewerMinutes:
+          type: integer
+        TicketEscalationTimeOlderDate:
+          description: Include tickets escalated before 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketEscalationTimeOlderMinutes:
+          type: integer
+        TicketID:
+          description: array of TicketIDs to search in/for
+          items:
+            type: integer
+          type: array
+        TicketLastChangeTimeNewerDate:
+          description: Include tickets last changed after 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketLastChangeTimeNewerMinutes:
+          type: integer
+        TicketLastChangeTimeOlderDate:
+          description: Include tickets last changed before 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketLastChangeTimeOlderMinutes:
+          type: integer
+        TicketNumber:
+          description: The ticket number as shown in subject lines
+          items:
+            type: string
+          type: array
+        TicketPendingTimeNewerDate:
+          description: Include tickets pending after 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketPendingTimeNewerMinutes:
+          type: integer
+        TicketPendingTimeOlderDate:
+          description: Include tickets pending before 'YYYY-MM-DD hh:mm:ss'
+          type: string
+        TicketPendingTimeOlderMinutes:
+          type: integer
+        Title:
+          description: Search in the ticket title
+          items:
+            type: string
+          type: array
+        TypeIDs:
+          items:
+            type: integer
+          type: array
+        Types:
+          items:
+            type: string
+          type: array
+        UseSubQueues:
+          enum:
+          - 0
+          - 1
+          type: integer
+        WatcherIDs:
+          items:
+            type: integer
+          type: array
+
+    TicketCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/Credentials'
+        - type: object
+          properties:      
+            Article:
+              $ref: '#/components/schemas/Article'
+            Attachment:
+              $ref: '#/components/schemas/Attachment'
+            DynamicField:
+              $ref: '#/components/schemas/DynamicFields'
+            Ticket:
+                $ref: '#/components/schemas/Ticket'
+    TicketCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - type: object
+          properties:
+            TicketID:
+              type: integer
+            TicketNumber:
+              type: string
+            ArticleID:
+              type: integer
+            Ticket:
+              $ref: '#/components/schemas/TicketCreated'
+
+    TicketGetRequest:
+      allOf:
+        - $ref: '#/components/schemas/Credentials'
+        - type: object
+          properties:
+            AllArticles:
+              description: Whether to retrieve all articles
+              enum:
+              - 0
+              - 1
+              type: integer
+            ArticleLimit:
+              description: Maximum number of articles to retrieve
+              type: integer
+            ArticleOrder:
+              description: Sort order of returned articles
+              enum:
+              - ASC
+              - DESC
+              type: string
+            ArticleSenderType:
+              description: "One of 'customer', 'agent', or 'system'"
+              enum:
+              - customer
+              - agent
+              - system
+              type: string
+            Attachments:
+              description: Whether to include Attachments in the response
+              enum:
+              - 0
+              - 1
+              type: integer
+            DynamicFields:
+              description: Whether to include Dynamic Fields in the response
+              enum:
+              - 0
+              - 1
+              type: integer
+            Extended:
+              description: Include extended attributes
+              enum:
+              - 0
+              - 1
+              type: integer
+            Password:
+              description: The passowrd of the user performing the action
+              type: string
+            SessionID:
+              description: A valid SessionID for the user performing the action
+              type: string
+            TicketID:
+              description: ID of the ticket
+              type: string
+            UserLogin:
+              description: The Login of the user performing the action
+              type: string
+          required: 
+            - TicketID
+
+    TicketGetResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - type: object
+          properties:
+            Ticket:
+              type: array
+              items:
+                  $ref: '#/components/schemas/TicketFull'
+
+    TicketSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/Credentials'
+        - $ref: '#/components/schemas/TicketQuery'
+    TicketSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - type: object
+          properties:
+            TicketID:
+              type: array
+              items:
+                type: string
+
+    TicketUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/Credentials'
+        - type: object
+          properties:
+            Article:
+              $ref : '#/components/schemas/Article'
+            Attachment:
+              $ref : '#/components/schemas/Attachments'
+            DynamicField:
+              $ref : '#/components/schemas/DynamicFields'
+            Ticket:
+              $ref : '#/components/schemas/Ticket'
+            TicketID:
+              description: The TicketID to update
+              type: string
+            ArticleID:
+              description: The ArticleID to update
+              type: string
+          required:
+            - TicketID
+    TicketUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - type: object
+          properties:
+            Ticket:
+              type: array
+              items:
+                  $ref: '#/components/schemas/TicketFull'
+            TicketID:
+              type: string
+            ArticleID:
+              type: string
+
+Ticket::TicketCreate:
+  QueryParams: {}
+  RequestBody:
+    content:
+      application/json:
+        examples:
+          Simple:
+            value:
+              Article:
+                Body: an example request
+                CommunicationChannel: Email
+                ContentType: text/plain;charset=utf-8
+                From: "mike@knitbits.de"
+                Subject: hello otobo
+              Ticket:
+                CustomerUser: "mike@knitbits.de"
+                PriorityID: 1
+                Queue: Raw
+                State: new
+                Title: Hello World
+          WithDynamicField:
+            value:
+              Article:
+                Body: an example request
+                CommunicationChannel: Email
+                ContentType: text/plain;charset=utf-8
+                From: "mike@knitbits.de"
+                Subject: hello otobo
+              DynamicField:
+              - Name: MyDynamicFieldName
+                Value: SomeValue
+              Ticket:
+                CustomerUser: "mike@knitbits.de"
+                PriorityID: 1
+                Queue: Raw
+                State: new
+                Title: Hello World
+        schema:
+          $ref : '#/components/schemas/TicketCreateRequest'
+    required: true
+  Responses:
+    200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TicketCreateResponse'
+          examples:
+            foo:
+              value:
+                ArticleID: 7
+                TicketID: 7
+                TicketNumber: "2025082210000021"
+      description: 200 response
+
+Ticket::TicketGet:
+  QueryParams:
+    GET:
+    - $ref: '#/components/parameters/UserLogin'
+    - $ref: '#/components/parameters/Password'
+    - $ref: '#/components/parameters/SessionID'
+    - $ref: '#/components/parameters/TicketID'
+    - $ref: '#/components/parameters/DynamicFields'
+    - description: Include Extended Attributes
+      in: query
+      name: Extended
+      required: false
+      schema:
+        enum:
+        - 0
+        - 1
+        type: integer
+    - description: Include All Articles
+      in: query
+      name: AllArticles
+      required: false
+      schema:
+        enum:
+        - 0
+        - 1
+        type: integer
+    - description: Include SenderType Articles
+      in: query
+      name: ArticleSenderType
+      required: false
+      schema:
+        enum:
+        - customer
+        - agent
+        - system
+        type: string
+    - description: Article sort order - default ASC
+      in: query
+      name: ArticleOrder
+      required: false
+      schema:
+        enum:
+        - ASC
+        - DESC
+        type: string
+    - description: maximum number of Articles to include
+      in: query
+      name: ArticleLimit
+      required: false
+      schema:
+        type: integer
+    - description: Include Attachments
+      in: query
+      name: Attachments
+      required: false
+      schema:
+        enum:
+        - 0
+        - 1
+        type: integer
+    - description: Include Attachment Contents
+      in: query
+      name: GetAttachmentContents
+      required: false
+      schema:
+        enum:
+        - 0
+        - 1
+        type: integer
+    - description: Include HTML Body as Attachment
+      in: query
+      name: HTMLBodyAsAttachment
+      required: false
+      schema:
+        enum:
+        - 0
+        - 1
+        type: integer
+  RequestBody:        
+    content:
+      application/json:
+        example:
+          AllArticles: 1
+          ArticleLimit: 10
+          ArticleOrder: DESC
+          DynamicFields: 1
+          Extended: 1
+          TicketID: 1
+        schema:
+          $ref : '#/components/schemas/TicketGetRequest'
+
+    required: true
+  Responses:
+    200:
+      content:
+        application/json:
+          schema: 
+            $ref: '#/components/schemas/TicketGetResponse'
+          examples:
+            basic:
+              value:
+                Ticket:
+                - Age: 638316
+                  ArchiveFlag: n
+                  ChangeBy: 1
+                  Changed: 2025-08-15 00=>26=>12
+                  CreateBy: 1
+                  Created: 2025-08-15 00=>26=>12
+                  CustomerID: ~
+                  CustomerUserID: ~
+                  EscalationResponseTime: 0
+                  EscalationSolutionTime: 0
+                  EscalationTime: 0
+                  EscalationUpdateTime: 0
+                  GroupID: 1
+                  Lock: unlock
+                  LockID: 1
+                  Owner: root@localhost
+                  OwnerID: 1
+                  Priority: 3 normal
+                  PriorityID: 3
+                  Queue: Raw
+                  QueueID: 2
+                  RealTillTimeNotUsed: 0
+                  Responsible: root@localhost
+                  ResponsibleID: 1
+                  SLAID: ""
+                  ServiceID: ""
+                  State: new
+                  StateID: 1
+                  StateType: new
+                  TicketID: 1
+                  TicketNumber: "2015071510123456"
+                  TimeUnit: 0
+                  Title: Welcome to OTOBO!
+                  Type: Unclassified
+                  TypeID: 1
+                  UnlockTimeout: 0
+                  UntilTime: 0
+      description: 200 response
+
+Ticket::TicketSearch:
+  QueryParams:
+    GET:
+    - $ref: '#/components/parameters/UserLogin'
+    - $ref: '#/components/parameters/Password'
+    - $ref: '#/components/parameters/SessionID'
+    - $ref: '#/components/parameters/TicketID'
+    - description: Ticketnumber to search for
+      in: query
+      name: TicketNumber
+      required: false
+      schema:
+        type: string
+    - description: Title to search for
+      in: query
+      name: Title
+      required: false
+      schema:
+        type: string
+    - description: Content to search for
+      in: query
+      name: ContentSearch
+      required: false
+      schema:
+        type: string
+    - description: StateType to search for
+      in: query
+      name: StateType
+      required: false
+      schema:
+        enum:
+        - Open
+        - Closed
+        type: string
+    - description: Type to search for
+      in: query
+      name: Type
+      required: false
+      schema:
+        enum:
+        - normal
+        - change
+        - incident
+        type: string
+    - description: CustomerID to search for
+      in: query
+      name: CustomerID
+      required: false
+      schema:
+        type: string
+    - description: CustomerUserLogin to search for
+      in: query
+      name: CustomerUserLogin
+      required: false
+      schema:
+        type: string
+    - description: Article FROM to search for
+      in: query
+      name: MIMEBase_From
+      required: false
+      schema:
+        type: string
+    - description: Article TO to search for
+      in: query
+      name: MIMEBase_To
+      required: false
+      schema:
+        type: string
+    - description: Article CCC to search for
+      in: query
+      name: MIMEBase_Cc
+      required: false
+      schema:
+        type: string
+    - description: Article Subject to search for
+      in: query
+      name: MIMEBase_Subject
+      required: false
+      schema:
+        type: string
+    - description: Article Body to search for
+      in: query
+      name: MIMEBase_Body
+      required: false
+      schema:
+        type: string
+    - description: Use FullTextIndex if configured
+      in: query
+      name: FullTextIndex
+      required: false
+      schema:
+        enum:
+        - 0
+        - 1
+        type: integer
+    - description: Age to search for
+      in: query
+      name: ArticleCreateTimeOlderMinutes
+      required: false
+      schema:
+        type: integer
+    - description: Age to search for
+      in: query
+      name: ArticleCreateTimeNewerMinutes
+      required: false
+      schema:
+        type: integer
+    - description: Age to search for
+      in: query
+      name: ArticleCreateTimeNewerDate
+      required: false
+      schema:
+        type: string
+    - description: Age to search for
+      in: query
+      name: ArticleCreateTimeOlderDate
+      required: false
+      schema:
+        type: string
+    - description: Age to search for
+      in: query
+      name: TicketCreateTimeOlderMinutes
+      required: false
+      schema:
+        type: integer
+    - description: Age to search for
+      in: query
+      name: TicketCreateTimeNewerMinutes
+      required: false
+      schema:
+        type: integer
+    - description: Age to search for
+      in: query
+      name: TicketCreateTimeNewerDate
+      required: false
+      schema:
+        type: string
+    - description: Age to search for
+      in: query
+      name: TicketCreateTimeOlderDate
+      required: false
+      schema:
+        type: string
+    - description: Sort order
+      in: query
+      name: OrderBy
+      required: false
+      schema:
+        enum:
+        - Up
+        - Down
+        type: string
+    - description: Field to use for sorting
+      in: query
+      name: SortBy
+      required: false
+      schema:
+        type: string
+  RequestBody:
+    content:
+      application/json:
+        examples:
+          DynamicFieldValue:
+            value:
+              DynamicField_TextField:
+                Like: webservice populated value
+              OrderBy: Down
+          LastChangeSince:
+            value:
+              OrderBy: Down
+              TicketLastChangeTimeOlderMinutes: 10
+          Subject:
+            value:
+              MIMEBase_Subject: hello
+              OrderBy: Down
+          Title:
+            value:
+              OrderBy: Down
+              Title:
+              - Welcome*
+              - Hello*
+        schema:
+          $ref: '#/components/schemas/TicketSearchRequest'
+    required: true
+  Responses:
+    200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TicketSearchResponse'
+          examples:
+            basic:
+              value:
+                TicketID:
+                - 1
+                - 2
+                - 3
+      description: 200 response
+      
+Ticket::TicketUpdate: 
+  QueryParams: {}
+  RequestBody:
+    content:
+      application/json:
+        examples:
+          DynamicField:
+            value:
+              DynamicField:
+              - Name: MyDynamicFieldName
+                Value: SomeValue
+          Simple:
+            value:
+              Ticket:
+                CustomerUser: "mike@knitbits.de"
+                PriorityID: 1
+                Queue: Postmaster
+                State: closed successful
+                Title: Hello Updated World
+          WithArticle:
+            value:
+              Article:
+                Body: an updated example request
+                CommunicationChannel: Email
+                ContentType: text/plain;charset=utf-8
+                From: user@example.org
+                Subject: hello updated otobo
+              Ticket:
+                CustomerUser: "mike@knitbits.de"
+                PriorityID: 1
+                Queue: Postmaster
+                State: closed successful
+                Title: Hello Updated World
+        schema:
+          $ref : '#/components/schemas/TicketUpdateRequest'
+    required: true
+  Responses:
+    200:
+      content:
+        application/json:
+          examples:
+            foo:
+              value:
+                ArticleID: 7
+                TicketID: 7
+                TicketNumber: "2025082210000021"
+          schema:
+            $ref : '#/components/schemas/TicketUpdateResponse'
+      description: 200 response

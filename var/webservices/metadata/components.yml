@@ -1,0 +1,73 @@
+--- 
+components:
+  parameters:
+    UserLogin:
+      description: The UserLogin of the User performing the operation
+      in: query
+      name: UserLogin
+      required: false
+      schema:
+        type: string
+    Password:
+      description: The Password of the User performing the operation
+      in: query
+      name: Password
+      required: false
+      schema:
+        type: string 
+    SessionID: 
+      description: The SessionID of the User performing the operation
+      in: query
+      name: SessionID
+      required: false
+      schema:
+        type: string            
+  schemas:
+    ApiError:
+      type: object
+      properties:
+        Error:
+          type: object
+          properties:
+            ErrorCode: 
+              type: string
+              description: Error Code, eg "TicketGet.AuthFail"
+            ErrorMessage:
+              type: string
+              description: Error Message, eg "TicketGet__Authorization failing!"
+    DynamicField:
+      type: object
+      properties:
+        Name:
+          description: Name of the Dynamic Field
+          type: string
+        Value:
+          type: {}
+    DynamicFields:
+      type: array
+      items:
+        $ref : '#/components/schemas/DynamicField'
+    Attachment:
+      type: object
+      properties:
+        Content:
+          description: Actusl content, in Base64 encoding
+          type: string
+          format: byte        
+        ContentAlternative:
+          type: string
+        ContentID:
+          type: string
+        ContentType:
+          description: eg "application/pdf"
+        FileID:
+          type: integer
+        Filename:
+          description: eg "StdAttachment-Test1.pdf"
+          type: string
+        FilesizeRaw:
+          type: integer
+    Attachments:
+      type: array
+      items:
+        $ref: '#/components/schemas/Attachment'

@@ -1,0 +1,120 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: '0'
+Description: CMDB
+FrameworkVersion: 11.0.x
+Provider:
+  Operation:
+    ConfigItemSearch:
+      Description: ConfigItem Search
+      IncludeTicketData: '0'
+      Type: ConfigItem::ConfigItemSearch
+    ConfigItemUpsert:
+      Description: ConfigItem Upsert
+      Identifier41:
+      - Number
+      Identifier42:
+      - Number
+      Identifier43:
+      - Number
+      Identifier44:
+      - Number
+      Identifier45:
+      - Number
+      Identifier46:
+      - Number
+      Identifier47:
+      - Number
+      Identifier48:
+      - Number
+      Identifier49:
+      - Number
+      Identifier50:
+      - Number
+      Identifier51:
+      - Number
+      Identifier52:
+      - Number
+      Identifier53:
+      - Number
+      Identifier54:
+      - Number
+      Identifier55:
+      - Number
+      Identifier56:
+      - Number
+      Identifier57:
+      - Number
+      Identifier58:
+      - Number
+      Identifier59:
+      - Number
+      Identifier60:
+      - Number
+      Identifier61:
+      - Number
+      Identifier62:
+      - Number
+      Identifier63:
+      - Number
+      Identifier64:
+      - Number
+      Identifier65:
+      - Number
+      Identifier66:
+      - Number
+      Identifier67:
+      - Number
+      Identifier68:
+      - Number
+      Identifier69:
+      - Number
+      Identifier70:
+      - Number
+      Identifier71:
+      - Number
+      Identifier72:
+      - Number
+      Identifier73:
+      - Number
+      Identifier74:
+      - Number
+      Type: ConfigItem::ConfigItemUpsert
+    DeleteConfigItem:
+      Description: Delete ConfigItem
+      IncludeTicketData: '0'
+      Type: ConfigItem::ConfigItemDelete
+    GetConfigItem:
+      Description: Get ConfigItem
+      IncludeTicketData: '0'
+      Type: ConfigItem::ConfigItemGet
+  Transport:
+    Config:
+      AdditionalHeaders: ~
+      KeepAlive: ''
+      MaxLength: '1000000'
+      OutboundHeaders: {}
+      RouteOperationMapping:
+        ConfigItemSearch:
+          RequestMethod:
+          - GET
+          - POST
+          Route: /search
+        ConfigItemUpsert:
+          RequestMethod:
+          - POST
+          Route: /upsert
+        DeleteConfigItem:
+          RequestMethod:
+          - DELETE
+          Route: /:ConfigItemID
+        GetConfigItem:
+          RequestMethod:
+          - GET
+          Route: /:ConfigItemID
+    Type: HTTP::REST
+RemoteSystem: ''
+Requester:
+  Transport:
+    Type: ''

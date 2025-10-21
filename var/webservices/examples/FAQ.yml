@@ -1,0 +1,52 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: '0'
+Description: FAQ Service
+FrameworkVersion: 11.0.x
+Provider:
+  Operation:
+    CategoryList:
+      Description: Category List
+      IncludeTicketData: '0'
+      Type: FAQ::PublicCategoryList
+    FAQSearch:
+      Description: FAQ Search
+      IncludeTicketData: '0'
+      Type: FAQ::PublicFAQSearch
+    GetFAQ:
+      Description: Get FAQ Item
+      IncludeTicketData: '0'
+      Type: FAQ::PublicFAQGet
+    LanguageList:
+      Description: Language List
+      IncludeTicketData: '0'
+      Type: FAQ::LanguageList
+  Transport:
+    Config:
+      AdditionalHeaders: ~
+      KeepAlive: ''
+      MaxLength: '1000000'
+      OutboundHeaders: {}
+      RouteOperationMapping:
+        CategoryList:
+          RequestMethod:
+          - GET
+          Route: /categories
+        FAQSearch:
+          RequestMethod:
+          - POST
+          Route: /search
+        GetFAQ:
+          RequestMethod:
+          - GET
+          Route: /faq/:ItemID
+        LanguageList:
+          RequestMethod:
+          - GET
+          Route: /languages
+    Type: HTTP::REST
+RemoteSystem: ''
+Requester:
+  Transport:
+    Type: ''

@@ -1,0 +1,36 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: '0'
+Description: Session Service
+FrameworkVersion: 11.0.x
+Provider:
+  Operation:
+    SessionCreate:
+      Description: Create an API Session
+      IncludeTicketData: '0'
+      Type: Session::SessionCreate
+    SessionGet:
+      Description: Get Userinfo for SessionID
+      IncludeTicketData: '0'
+      Type: Session::SessionGet
+  Transport:
+    Config:
+      AdditionalHeaders: ~
+      KeepAlive: ''
+      MaxLength: '1000000'
+      OutboundHeaders: {}
+      RouteOperationMapping:
+        SessionCreate:
+          RequestMethod:
+          - POST
+          Route: /Session
+        SessionGet:
+          RequestMethod:
+          - GET
+          Route: /Session/:SessionID
+    Type: HTTP::REST
+RemoteSystem: ''
+Requester:
+  Transport:
+    Type: ''

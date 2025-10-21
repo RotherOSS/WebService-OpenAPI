@@ -1,0 +1,52 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: '0'
+Description: Ticket Service
+FrameworkVersion: 11.0.x
+Provider:
+  Operation:
+    TicketCreate:
+      Description: Create a new Ticket
+      IncludeTicketData: '0'
+      Type: Ticket::TicketCreate
+    TicketGet:
+      Description: Retrieve a Ticket
+      IncludeTicketData: '0'
+      Type: Ticket::TicketGet
+    TicketSearch:
+      Description: Search for Tickets
+      IncludeTicketData: '0'
+      Type: Ticket::TicketSearch
+    TicketUpdate:
+      Description: Update an existing Ticket
+      IncludeTicketData: '0'
+      Type: Ticket::TicketUpdate
+  Transport:
+    Config:
+      AdditionalHeaders: ~
+      KeepAlive: ''
+      MaxLength: '1000000'
+      OutboundHeaders: {}
+      RouteOperationMapping:
+        TicketCreate:
+          RequestMethod:
+          - POST
+          Route: /Ticket
+        TicketGet:
+          RequestMethod:
+          - GET
+          Route: /Ticket/:TicketID
+        TicketSearch:
+          RequestMethod:
+          - POST
+          Route: /Ticket/Search
+        TicketUpdate:
+          RequestMethod:
+          - PUT
+          Route: /Ticket/:TicketID
+    Type: HTTP::REST
+RemoteSystem: ''
+Requester:
+  Transport:
+    Type: ''
