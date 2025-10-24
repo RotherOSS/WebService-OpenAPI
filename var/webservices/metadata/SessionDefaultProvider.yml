@@ -56,21 +56,21 @@ Session::SessionCreate:
         name: UserLogin
         required: true
         schema:
-          example: root@localhost
+          example: validUserLogin
           type: string
       - description: The Password of the User performing the operation
         in: query
         name: Password
         required: true
         schema:
-          example: root
+          example: validUserPassword
           type: string 
   RequestBody:
     content:
       application/json:
         example:
-          Password: root
-          UserLogin: root@localhost
+          Password: validUserPassword
+          UserLogin: validUserLogin
         schema:
           $ref: '#/components/schemas/SessionCreateRequest'
     required: true

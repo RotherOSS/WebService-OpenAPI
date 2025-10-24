@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <otobo_config version="2.0" init="Application">
-    <Setting Name="Frontend::Module###Swagger" Required="0" Valid="1">
+    <Setting Name="PublicFrontend::Module###Swagger" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Public::ModuleRegistration</Navigation>
         <Value>
@@ -65,6 +65,6 @@
                 <Item Key="IconSmall">fa-globe</Item>
             </Hash>
         </Value>
-    </Setting>	
+    </Setting>
 
 </otobo_config>

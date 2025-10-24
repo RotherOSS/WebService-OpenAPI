@@ -19,13 +19,12 @@ package Kernel::Modules::Swagger;
 use strict;
 use warnings;
 use JSON;
-use Storable         qw(dclone);
-use Path::Class      qw(file);
-use URI::Escape      qw(uri_escape_utf8);
+use Storable          qw(dclone);
+use URI::Escape       qw(uri_escape_utf8);
 use Types::Serialiser ();
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -35,7 +34,7 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
-    
+
     $Self->{ContentlessMethods} = {
         GET     => 1,
         HEAD    => 1,
@@ -62,78 +61,77 @@ sub new {
                 "in"          => "query",
             }
         },
-		"schemas" => {},
-		"parameters" => {},
+        "schemas"    => {},
+        "parameters" => {},
     };
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $YAMLObject   = $Kernel::OM->Get('Kernel::System::YAML');
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
-    my $Home    = $ConfigObject->Get('Home');
-    my $OpenAPI = $ConfigObject->Get('OpenAPI');
+    my $Home = $ConfigObject->Get('Home');
 
     $Self->{MetaData} = {};
 
-    my @WebserviceMetaDescs = glob( "$Home/var/webservices/metadata/*.yml" );
-    foreach my $MetaData ( @WebserviceMetaDescs ) {
+    my @WebserviceMetaDescs = glob("$Home/var/webservices/metadata/*.yml");
+    for my $MetaData (@WebserviceMetaDescs) {
 
-        my $WebServiceDesc = file($MetaData)->slurp;
+        my $WebServiceDesc = $MainObject->FileRead( Location => $MetaData );
 
         local $YAML::XS::Boolean = "JSON::PP";
         my $WebServiceMetaData = $YAMLObject->Load(
-            Data => $WebServiceDesc,
+            Data => $WebServiceDesc->$*,
         );
 
-        if(IsHashRefWithData($WebServiceMetaData)) {
+        if ( IsHashRefWithData($WebServiceMetaData) ) {
 
-			if(exists $WebServiceMetaData->{components}) {
+            if ( exists $WebServiceMetaData->{components} ) {
 
-				my $Schemas    = $WebServiceMetaData->{components}->{schemas};
-				my $Parameters = $WebServiceMetaData->{components}->{parameters};
+                my $Schemas    = $WebServiceMetaData->{components}->{schemas};
+                my $Parameters = $WebServiceMetaData->{components}->{parameters};
 
-				if(IsHashRefWithData($Schemas)) {
-					$Self->{Components}->{schemas} = {
-						$Self->{Components}->{schemas}->%*,
-						$Schemas->%*,
-					};
-				}
+                if ( IsHashRefWithData($Schemas) ) {
+                    $Self->{Components}->{schemas} = {
+                        $Self->{Components}->{schemas}->%*,
+                        $Schemas->%*,
+                    };
+                }
 
-				if(IsHashRefWithData($Parameters)) {
-					$Self->{Components}->{parameters} = {
-						$Self->{Components}->{parameters}->%*,
-						$Parameters->%*,
-					};
-				}
-				delete $WebServiceMetaData->{components};
-			}
+                if ( IsHashRefWithData($Parameters) ) {
+                    $Self->{Components}->{parameters} = {
+                        $Self->{Components}->{parameters}->%*,
+                        $Parameters->%*,
+                    };
+                }
+                delete $WebServiceMetaData->{components};
+            }
 
             $Self->{MetaData} = {
                 $Self->{MetaData}->%*,
                 $WebServiceMetaData->%*,
-            }
+            };
         }
     }
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-	
-	if( $Self->{Components}->{schemas}->{TicketQuery}) {
 
-		my $DynamicFieldList   = $DynamicFieldObject->DynamicFieldListGet(
-			ResultType => 'HASH',
-			ObjectType => [ 'Ticket' ],
-		);
+    if ( $Self->{Components}->{schemas}->{TicketQuery} ) {
 
-		foreach my $DF ( $DynamicFieldList->@* ) {
+        my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
+            ResultType => 'HASH',
+            ObjectType => ['Ticket'],
+        );
 
-	        my $DFName = "DynamicField_".$DF->{Name};
+        for my $DF ( $DynamicFieldList->@* ) {
 
-			 $Self->{Components}->{schemas}->{TicketQuery}->{properties}->{$DFName} = {
+            my $DFName = "DynamicField_" . $DF->{Name};
 
-                type => 'object',
+            $Self->{Components}->{schemas}->{TicketQuery}->{properties}->{$DFName} = {
+
+                type       => 'object',
                 properties => {
                     Empty => {
-                        enum => [0,1],
+                        enum => [ 0, 1 ],
                         type => 'integer',
                     },
                     Equals => {
@@ -155,28 +153,28 @@ sub new {
                         type => 'string',
                     },
                 },
-			 }
-		}
-	}
+            };
+        }
+    }
 
-	if( $Self->{Components}->{schemas}->{ConfigItemQuery}) {
+    if ( $Self->{Components}->{schemas}->{ConfigItemQuery} ) {
 
-		my $DynamicFieldList   = $DynamicFieldObject->DynamicFieldListGet(
-			ResultType => 'HASH',
-			ObjectType => [ 'ITSMConfigItem' ],
-		);
+        my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
+            ResultType => 'HASH',
+            ObjectType => ['ITSMConfigItem'],
+        );
 
-		foreach my $DF ( $DynamicFieldList->@* ) {
+        for my $DF ( $DynamicFieldList->@* ) {
 
-	        my $DFName = "DynamicField_".$DF->{Name};
+            my $DFName = "DynamicField_" . $DF->{Name};
 
-			 $Self->{Components}->{schemas}->{ConfigItemQuery}->{properties}->{$DFName} = {
+            $Self->{Components}->{schemas}->{ConfigItemQuery}->{properties}->{$DFName} = {
 
-                type => 'object',
+                type       => 'object',
                 properties => {
 
                     Empty => {
-                        enum => [0,1],
+                        enum => [ 0, 1 ],
                         type => 'integer',
                     },
                     Equals => {
@@ -198,9 +196,9 @@ sub new {
                         type => 'string',
                     },
                 },
-			 }
-		}
-	}
+            };
+        }
+    }
 
     return $Self;
 }
@@ -208,12 +206,23 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+
+    my $SessionName = $ConfigObject->Get('SessionName') || 'SessionID';
+    my $SessionID   = $ParamObject->GetCookie( Key => $SessionName );
+
+    if ( !$SessionID || !$SessionObject->CheckSessionID( SessionID => $SessionID ) ) {
+
+        return $Self->UnAuthorized();
+    }
 
     my $BaseURL = "/otobo/nph-genericinterface.pl/Webservice/";
 
+    my $LayoutObject     = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+    my $JSONObject       = $Kernel::OM->Get('Kernel::System::JSON');
 
     my $WebserviceIDs = $WebserviceObject->WebserviceList();
 
@@ -236,7 +245,6 @@ sub Run {
             next WS;
         }
 
-        my $TransportConfig       = $Transport->{Config};
         my $RouteOperationMapping = $Transport->{Config}->{RouteOperationMapping};
         my $Operations            = $Provider->{Operation};
 
@@ -263,7 +271,7 @@ sub Run {
 
                 # if there is inbound mapping configured, the endpoint will
                 # be listed, but not usable via Swagger UI
-                if (IsHashRefWithData($MappingInbound)) {
+                if ( IsHashRefWithData($MappingInbound) ) {
                     my $Endpoint = {
                         Name        => $Webservice->{Config}->{Description},
                         Method      => $Method,
@@ -292,9 +300,9 @@ sub Run {
                     !$Self->{QueryParams}->{$OperationType}->{$Method}
                     )
                 {
-                    if( exists $Self->{ContentlessMethods}->{$Method} ) {
-                    
-                        if( $Self->{QueryParams}->{$OperationType}->{'GET'} ) {
+                    if ( exists $Self->{ContentlessMethods}->{$Method} ) {
+
+                        if ( $Self->{QueryParams}->{$OperationType}->{'GET'} ) {
                             $MethodToUseForSwaggerSpec = 'GET';
                         }
                     }
@@ -311,12 +319,12 @@ sub Run {
                     for my $Param (@$Params) {
 
                         my $Name = $Param->{name};
-						if(!$Name && $Param->{'$ref'}) {
+                        if ( !$Name && $Param->{'$ref'} ) {
 
-							my $Ref = $Param->{'$ref'};
-							$Ref =~ s/#\/components\/parameters\///;
-							$Name = $Self->{Components}->{parameters}->{$Ref}->{name};
-						}
+                            my $Ref = $Param->{'$ref'};
+                            $Ref =~ s/#\/components\/parameters\///;
+                            $Name = $Self->{Components}->{parameters}->{$Ref}->{name};
+                        }
 
                         if ( $Name && !scalar grep {/^$Name$/} @$PathParams ) {
                             push @QueryParams, $Param;
@@ -340,7 +348,7 @@ sub Run {
                 # if there is an outbound mapping, add a note that
                 # example responses will not match actual output
                 my $ApiDescription = $Description;
-                if (IsHashRefWithData($MappingOutbound)) {
+                if ( IsHashRefWithData($MappingOutbound) ) {
                     $ApiDescription .= " This endpoint has additional outbound mapping applied, please note actual Output might differ from example responses.";
                 }
 
@@ -365,16 +373,14 @@ sub Run {
         Services => \@Webservices,
     );
 
-    # serialize to JSON, with sorted keys
-    my $JsonObject = JSON->new();
-    $JsonObject->canonical();
-    $JsonObject->convert_blessed();
-
     return $LayoutObject->Attachment(
         ContentType => 'text/javascript',
-        Content     => $JsonObject->encode($Output),
-        Type        => 'inline',
-        NoCache     => 1,
+        Content     => $JSONObject->Encode(
+            Data     => $Output,
+            SortKeys => 1
+        ),
+        Type    => 'inline',
+        NoCache => 1,
     );
 
 }
@@ -403,6 +409,8 @@ sub GenerateSwagger {
     my ( $Self, %Param ) = @_;
 
     my $Services = $Param{Services};
+
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
     # static part of document
     my $OpenAPI = {
@@ -450,7 +458,7 @@ sub GenerateSwagger {
 
                 "name"        => $PathParam,
                 "in"          => "path",
-                "required"    => Types::Serialiser::true,
+                "required"    => $JSONObject->True(),
                 "description" => $PathParam,
                 "schema"      => {
                     "type" => "string"
@@ -466,11 +474,13 @@ sub GenerateSwagger {
 
         # add example responses, unless an inbound mapping was detected
         my $Responses = {};
-#        if( ! $Service->{Mapping}) {
-            if ($Service->{Method} ne 'HEAD') {
-                $Responses = $Self->{MetaData}->{ $Service->{Type}}->{Responses};
-            }
- #       }
+
+        #        if( ! $Service->{Mapping}) {
+        if ( $Service->{Method} ne 'HEAD' ) {
+            $Responses = $Self->{MetaData}->{ $Service->{Type} }->{Responses};
+        }
+
+        #       }
 
         # make sure the path hash exists in document
         if ( !exists $OpenAPI->{paths}->{ $Service->{Path} } ) {
@@ -486,7 +496,7 @@ sub GenerateSwagger {
             "tags"        => [ $Service->{Name} ],
         };
 
-        if($Service->{RequestBody}) {
+        if ( $Service->{RequestBody} ) {
 
             $OpenAPI->{paths}->{ $Service->{Path} }->{ lc $Service->{Method} }->{"requestBody"} = $Service->{RequestBody};
         }
@@ -500,7 +510,9 @@ sub GenerateDynamicFieldInfo {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-    my $DynamicFieldList   = $DynamicFieldObject->DynamicFieldListGet(
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
         ResultType => 'HASH',
         ObjectType => [ 'Ticket', 'Article' ],
     );
@@ -509,9 +521,7 @@ sub GenerateDynamicFieldInfo {
 
     for my $DF ( $DynamicFieldList->@* ) {
 
-        my $DFID     = $DF->{ID};
-        my $DFName   = $DF->{Name};
-        my $DFConfig = $DF->{Config};
+        my $DFName = $DF->{Name};
 
         my $Values = $BackendObject->PossibleValuesGet(
             DynamicFieldConfig => $DF,
@@ -562,7 +572,13 @@ sub GenerateDynamicFieldInfo {
         $Html .= "</td><td>&nbsp;";
 
         if ($Values) {
-            $Html .= join ',&nbsp;', $Values->@*;
+
+            my $PossibleValues = join ', ', $Values->@*;
+            $PossibleValues = $LayoutObject->Ascii2Html(
+                Text           => $PossibleValues,
+                HTMLResultMode => 1
+            );
+            $Html .= $PossibleValues;
         }
         $Html .= "</td></tr>";
     }
@@ -570,6 +586,41 @@ sub GenerateDynamicFieldInfo {
     $Html .= '</table></details>';
 
     return $Html;
+}
+
+sub UnAuthorized {
+    my ( $Self, %Param ) = @_;
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
+
+    my $OpenAPI = {
+
+        "openapi" => "3.0.0",
+        "info"    => {
+            "title"       => "Otobo Provider REST API",
+            "version"     => "11.0.0",
+            "description" => "Please login into Otobo to view the OpenAPI specification!",
+            "contact"     => {
+                "name"  => "Otobo API Support",
+                "url"   => "https://otobo.io",
+                "email" => "info\@otobo.io"
+            },
+        },
+        "paths"      => {},
+        "components" => {},
+        "security"   => [],
+    };
+
+    return $LayoutObject->Attachment(
+        ContentType => 'text/javascript',
+        Content     => $JSONObject->Encode(
+            Data     => $OpenAPI,
+            SortKeys => 1
+        ),
+        Type    => 'inline',
+        NoCache => 1,
+    );
 }
 
 1;
