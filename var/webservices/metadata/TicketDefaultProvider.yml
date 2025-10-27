@@ -760,10 +760,10 @@ Ticket::TicketCreate:
                 Body: an example request
                 CommunicationChannel: Email
                 ContentType: text/plain;charset=utf-8
-                From: "mike@knitbits.de"
+                From: "test@otobo.io"
                 Subject: hello otobo
               Ticket:
-                CustomerUser: "mike@knitbits.de"
+                CustomerUser: "test@otobo.io"
                 PriorityID: 1
                 Queue: Raw
                 State: new
@@ -774,13 +774,13 @@ Ticket::TicketCreate:
                 Body: an example request
                 CommunicationChannel: Email
                 ContentType: text/plain;charset=utf-8
-                From: "mike@knitbits.de"
+                From: "test@otobo.io"
                 Subject: hello otobo
               DynamicField:
               - Name: MyDynamicFieldName
                 Value: SomeValue
               Ticket:
-                CustomerUser: "mike@knitbits.de"
+                CustomerUser: "test@otobo.io"
                 PriorityID: 1
                 Queue: Raw
                 State: new
@@ -1156,7 +1156,7 @@ Ticket::TicketUpdate:
           Simple:
             value:
               Ticket:
-                CustomerUser: "mike@knitbits.de"
+                CustomerUser: "test@otobo.io"
                 PriorityID: 1
                 Queue: Postmaster
                 State: closed successful
@@ -1170,7 +1170,7 @@ Ticket::TicketUpdate:
                 From: user@example.org
                 Subject: hello updated otobo
               Ticket:
-                CustomerUser: "mike@knitbits.de"
+                CustomerUser: "test@otobo.io"
                 PriorityID: 1
                 Queue: Postmaster
                 State: closed successful
