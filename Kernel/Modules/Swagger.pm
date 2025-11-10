@@ -419,7 +419,9 @@ sub GenerateSwagger {
         "info"    => {
             "title"       => "Otobo Provider REST API",
             "version"     => "11.0.0",
-            "description" => "Note on Authentication:
+            "description" => "**Contact**: Customers with a support contract can get support at <a href='mailto:support\@otobo.io'>support\@otobo.io</a>, otherwise please contact <a href='mailto:hallo\@otobo.io'>mailto:hallo\@otobo.io</a>. 
+
+**Note on Authentication**:
  - You can authenticate by adding UserLogin/Password for every request. or if you have a CreateSession endpoint configured,
  - call SessionCreate once with UserLogin/Password to get a SessionID, and then specify the SessionID with every request, or
  - set the SessionID for all requests via the 'Authorize' button.
@@ -430,8 +432,8 @@ sub GenerateSwagger {
 " . $Self->GenerateDynamicFieldInfo(),
             "contact" => {
                 "name"  => "Otobo API Support",
-                "url"   => "https://otobo.io",
-                "email" => "info\@otobo.io"
+                "url"   => "https://doc.otobo.org/manual/admin/11.0/en/content/administration-area/processes-automation/web-services.html",
+#                "email" => "info\@otobo.io"
             },
             "version" => "11.0.0",
         },
@@ -558,7 +560,7 @@ sub GenerateDynamicFieldInfo {
 
         my $DFConfig = $DFs->{$DF};
         if ( $DFConfig->{InternalField} ) {
-            next NEXTDF;
+#            next NEXTDF;
         }
         my $Values = $DFConfig->{Values};
         $Html .= "<tr><td>&nbsp;";
