@@ -419,7 +419,7 @@ sub GenerateSwagger {
         "info"    => {
             "title"       => "Otobo Provider REST API",
             "version"     => "11.0.0",
-            "description" => "**Contact**: Customers with a support contract can get support at <a href='mailto:support\@otobo.io'>support\@otobo.io</a>, otherwise please contact <a href='mailto:hallo\@otobo.io'>mailto:hallo\@otobo.io</a>. 
+            "description" => "**Contact**: Customers with a support contract can get support at <a href='mailto:support\@otobo.io'>support\@otobo.io</a>, otherwise please contact <a href='mailto:hallo\@otobo.io'>hallo\@otobo.io</a>. 
 
 **Note on Authentication**:
  - You can authenticate by adding UserLogin/Password for every request. or if you have a CreateSession endpoint configured,
