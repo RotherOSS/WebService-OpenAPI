@@ -9,7 +9,7 @@ just redirects there.
 
 ## where is the metadata
 
-The static metadata is at var/webservices/metadata. 
+Find the static metadata at var/webservices/metadata. 
 
 ## where are the ready2adopt webservice import files
 
