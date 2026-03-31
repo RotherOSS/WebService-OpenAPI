@@ -1,0 +1,190 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019–2026 Rother OSS GmbH, https://otobo.io
+# This file is distributed under the same license as the OTOBO Documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: OTOBO Documentation dev\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-31 07:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../content/index.rst:5
+msgid "Contents"
+msgstr ""
+
+#: ../content/index.rst:12
+msgid "Overview"
+msgstr ""
+
+#: ../content/index.rst:13
+msgid "The Otobo WebService-OpenAPI is the \"WebService Getting Starting\" package for Otobo."
+msgstr ""
+
+#: ../content/index.rst:16
+msgid "Summary"
+msgstr ""
+
+#: ../content/index.rst:18
+msgid "This package adds support for automatic generation of an OpenAPI specification document describing the available Otobo WebService operations, and bundles the well well-known Swagger UI to interacively explore and try out the available WebService operation endpoints."
+msgstr ""
+
+#: ../content/index.rst:21
+msgid "In addition this packages adds \"ready2adopt\" WebService Operation configuration to quickly setup API endpoints. Ready2adopt WebService Operations include:"
+msgstr ""
+
+#: ../content/index.rst:24
+msgid "Ticket Service"
+msgstr ""
+
+#: ../content/index.rst:25
+msgid "Session Service"
+msgstr ""
+
+#: ../content/index.rst:26
+msgid "FAQ Service (with FAQ module)"
+msgstr ""
+
+#: ../content/index.rst:27
+msgid "CMDB Service (with ITSMConfigurationManagement module)"
+msgstr ""
+
+#: ../content/index.rst:30
+msgid "Introduction"
+msgstr ""
+
+#: ../content/index.rst:32
+msgid "Use this package if"
+msgstr ""
+
+#: ../content/index.rst:34
+msgid "you want to get started with WebService operations provided by Otobo"
+msgstr ""
+
+#: ../content/index.rst:36
+msgid "you want to quickly configure your Otobo instance with a basic set of reasonable API endpoints provided by the \"ready2adopt\" WebServices"
+msgstr ""
+
+#: ../content/index.rst:38
+msgid "you want to explore the available API Endpoints, vie HTTP Methods, Paths and Parameters"
+msgstr ""
+
+#: ../content/index.rst:40
+msgid "you want to try out the API endpoints interactively with a nice browser based UI provided by the de-facto industry standard"
+msgstr ""
+
+#: ../content/index.rst:43
+msgid "Configuration"
+msgstr ""
+
+#: ../content/index.rst:45
+msgid "In order to make use of the bundled Swagger UI you need to configure Otobo WebService Operations first."
+msgstr ""
+
+#: ../content/index.rst:47
+msgid "This packages makes it easy by providing \"ready2adopt\" WebService operation definitions."
+msgstr ""
+
+#: ../content/index.rst:49
+msgid "To activate, navigate the Admin UI and got to:"
+msgstr ""
+
+#: ../content/index.rst:51
+msgid "Admin UI > Web Services -> Add New"
+msgstr ""
+
+#: ../content/index.rst:57
+msgid "For starters, choose \"Ticket\" and click the import ready2adopt webservice button:"
+msgstr ""
+
+#: ../content/index.rst:63
+msgid "As you are here, you probably want to do the same for the \"Session\" Service."
+msgstr ""
+
+#: ../content/index.rst:65
+msgid "You can also import ready2adopt definitions for FAQ and CMDB services, but please note you need to install the relevant Otobo packages beforehand (FAQ packages and ITSMConfigurationManagement package, respectively)."
+msgstr ""
+
+#: ../content/index.rst:69
+msgid "Visit the Swagger UI"
+msgstr ""
+
+#: ../content/index.rst:71
+msgid "With at least one Operation service configured, visit the Swagger UI bundled with Otobo. To do so, navigate to \"Open API\" in the Admin UI:"
+msgstr ""
+
+#: ../content/index.rst:73
+#: ../content/index.rst:81
+msgid "Admin UI > Open API"
+msgstr ""
+
+#: ../content/index.rst:79
+msgid "This will give you the intercative API documentation provided by Swagger UI:"
+msgstr ""
+
+#: ../content/index.rst:88
+msgid "System requirements"
+msgstr ""
+
+#: ../content/index.rst:91
+msgid "Framework"
+msgstr ""
+
+#: ../content/index.rst:93
+msgid "OTOBO 11.0.x"
+msgstr ""
+
+#: ../content/index.rst:96
+msgid "Packages"
+msgstr ""
+
+#: ../content/index.rst:98
+msgid "This package does not depend on other Otobo packages."
+msgstr ""
+
+#: ../content/index.rst:101
+msgid "Third-party software"
+msgstr ""
+
+#: ../content/index.rst:103
+msgid "This package bundles the Swagger UI available on `GitHub <https://github.com/swagger-api/swagger-ui>`__"
+msgstr ""
+
+#: ../content/index.rst:106
+msgid "Further Reading"
+msgstr ""
+
+#: ../content/index.rst:108
+msgid "Learn about te Open API spec at the OpenAPI `website <https://swagger.io/resources/open-api/>`__"
+msgstr ""
+
+#: ../content/index.rst:111
+msgid "About"
+msgstr ""
+
+#: ../content/index.rst:114
+msgid "Contact"
+msgstr ""
+
+#: ../content/index.rst:115
+msgid "Rother OSS GmbH"
+msgstr ""
+
+#: ../content/index.rst:116
+msgid "Email: hello@otobo.io"
+msgstr ""
+
+#: ../content/index.rst:117
+msgid "Web: https://otobo.io"
+msgstr ""
+
+#: ../content/index.rst:120
+msgid "Version"
+msgstr ""
