@@ -9,7 +9,7 @@ just redirects there.
 
 ## where is the metadata
 
-Find the static metadata at var/webservices/metadata. 
+Find the static metadata at /opt/otobo/var/webservices/metadata. 
 
 ## where are the ready2adopt webservice import files
 
