@@ -2,9 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
-# $origin: otobo - e44c18aea9abc125fddf9ceeed204db4fab290e0 - Kernel/Modules/AdminGenericInterfaceWebservice.pm
+# $origin: otobo - a92c73fab14a362478a96234060230c413dd3043 - Kernel/Modules/AdminGenericInterfaceWebservice.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -376,7 +376,13 @@ sub Run {
         }
 
         # Dump configuration into a YAML structure.
-        my $YAMLContent = $YAMLObject->Dump( Data => $WebserviceData->{Config} );
+        # export webservice name to be flexible regarding filename
+        my $YAMLContent = $YAMLObject->Dump(
+            Data => {
+                $WebserviceData->{Config}->%*,
+                Name => $WebserviceData->{Name},
+            },
+        );
 
         # Return YAML to download.
         my $YAMLFile = $WebserviceData->{Name};
@@ -730,19 +736,19 @@ sub Run {
             WebserviceID => $WebserviceID,
         );
     }
-# Rother OSS / webservice-openapi    
+# Rother OSS / webservice-openapi
     # ------------------------------------------------------------ #
     # sub-action Swagger: show OpenAPI Swagger UI
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Swagger' ) {
 
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-        
+
         $LayoutObject->Redirect(
             ExtURL => $ConfigObject->Get('HttpType') . "://" . $ConfigObject->Get('FQDN') . '/otobo-web/js/thirdparty/swagger/index.html'
-        );        
+        );
     }
-# EO webservice-openapi    
+# EO webservice-openapi
     # ------------------------------------------------------------ #
     # default: show start screen
     # ------------------------------------------------------------ #

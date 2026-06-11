@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -418,8 +418,9 @@ sub GenerateSwagger {
         "openapi" => "3.0.0",
         "info"    => {
             "title"       => "Otobo Provider REST API",
-            "version"     => "11.0.0",
-            "description" => "**Contact**: Customers with a support contract can get support at <a href='mailto:support\@otobo.io'>support\@otobo.io</a>, otherwise please contact <a href='mailto:hallo\@otobo.io'>hallo\@otobo.io</a>. 
+            "version"     => "11.1.0",
+            "description" =>
+                "**Contact**: Customers with a support contract can get support at <a href='mailto:support\@otobo.io'>support\@otobo.io</a>, otherwise please contact <a href='mailto:hallo\@otobo.io'>hallo\@otobo.io</a>.
 
 **Note on Authentication**:
  - You can authenticate by adding UserLogin/Password for every request. or if you have a CreateSession endpoint configured,
@@ -431,11 +432,12 @@ sub GenerateSwagger {
 
 " . $Self->GenerateDynamicFieldInfo(),
             "contact" => {
-                "name"  => "Otobo API Support",
-                "url"   => "https://doc.otobo.org/manual/admin/11.0/en/content/administration-area/processes-automation/web-services.html",
-#                "email" => "info\@otobo.io"
+                "name" => "Otobo API Support",
+                "url"  => "https://doc.otobo.org/manual/admin/11.0/en/content/administration-area/processes-automation/web-services.html",
+
+                #                "email" => "info\@otobo.io"
             },
-            "version" => "11.0.0",
+            "version" => "11.1.0",
         },
         "paths" => {},
 
@@ -560,7 +562,8 @@ sub GenerateDynamicFieldInfo {
 
         my $DFConfig = $DFs->{$DF};
         if ( $DFConfig->{InternalField} ) {
-#            next NEXTDF;
+
+            #            next NEXTDF;
         }
         my $Values = $DFConfig->{Values};
         $Html .= "<tr><td>&nbsp;";
@@ -601,7 +604,7 @@ sub UnAuthorized {
         "openapi" => "3.0.0",
         "info"    => {
             "title"       => "Otobo Provider REST API",
-            "version"     => "11.0.0",
+            "version"     => "11.1.0",
             "description" => "Please login into Otobo to view the OpenAPI specification!",
             "contact"     => {
                 "name"  => "Otobo API Support",
