@@ -49,7 +49,7 @@
         Go to Admin UI -> <a href="/otobo/index.pl?Action=AdminGenericInterfaceWebservice">Webservices</a> and click 'Add New'. Next either configure a Provider Webservice on your own or choose one or more of the provided example Provider Webservices.
         <br>
         <br>
-        The basic example Provider Webservices that come with this module are 'Session' and 'Ticket'. 
+        The basic example Provider Webservices that come with this module are 'Session' and 'Ticket'.
         <br>
         <br>
         If you have the FAQ or ITSMConfigurationManagement

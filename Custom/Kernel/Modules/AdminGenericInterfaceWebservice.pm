@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # $origin: otobo - e44c18aea9abc125fddf9ceeed204db4fab290e0 - Kernel/Modules/AdminGenericInterfaceWebservice.pm
 # --
@@ -730,19 +730,19 @@ sub Run {
             WebserviceID => $WebserviceID,
         );
     }
-# Rother OSS / webservice-openapi    
+# Rother OSS / webservice-openapi
     # ------------------------------------------------------------ #
     # sub-action Swagger: show OpenAPI Swagger UI
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Swagger' ) {
 
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-        
+
         $LayoutObject->Redirect(
             ExtURL => $ConfigObject->Get('HttpType') . "://" . $ConfigObject->Get('FQDN') . '/otobo-web/js/thirdparty/swagger/index.html'
-        );        
+        );
     }
-# EO webservice-openapi    
+# EO webservice-openapi
     # ------------------------------------------------------------ #
     # default: show start screen
     # ------------------------------------------------------------ #
